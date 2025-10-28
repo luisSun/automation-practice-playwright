@@ -1,0 +1,66 @@
+## npx playwright test --ui
+#Mostra o teste com UI
+
+## npx playwright test --debug
+#abre o debug de testes
+
+## npx playwright test
+#roda o teste no terminal
+
+-------------------------------------------------------------------------
+
+###Tags e Agrupamento de testes
+
+##test('Login com sucesso @testLogin', async ({ page }) => {})
+
+##Foi utilizada a tag @testLogin para indicar que este teste faz parte do grupo identificado por essa tag.
+#Assim, é possível executar apenas os testes que possuem essa tag.
+
+#exemplo de comando: npx playwright test --grep --% "@testLogin"
+
+-------------------------------------------------------------------------
+
+##Workers e paralelismo
+##Isso limitará a execução a 2 workers (ou seja, 2 testes rodando em paralelo).
+#usar --workers=1 se quiser rodar tudo em série.
+
+#exemplo de comando: npx playwright test --workers=2
+
+-------------------------------------------------------------------------
+
+## Scroll
+# Usado para realizar a ação de scroll quando o Playwright não consegue localizar 
+# o elemento na tela (por exemplo: 'button', { name: 'Send Mail' }).
+# É útil em páginas que carregam conteúdo dinamicamente ou após algum tempo.
+
+# Exemplo:
+# const buttonEmail = await page.getByRole('button', { name: 'Send Mail' })
+# await buttonEmail.scrollIntoViewIfNeeded()
+# await buttonEmail.click() <- criando uma ação apos o scrollIntoViewIfNeeded força a animaçaõ do scroll
+
+#Recomendado usar com modo DEBUG
+
+-------------------------------------------------------------------------
+
+## Geolocation
+# Usado para definir uma geolocalização específica durante o teste.
+# É útil para simular a localização do usuário em um ponto do mapa 
+# (por exemplo, testar funcionalidades baseadas em localização).
+
+# Exemplo de configuração direta:
+# geolocation: { longitude: 12.492507, latitude: 41.889938 },
+# permissions: ['geolocation'],
+
+# Exemplo usando test.use():
+test.use({
+  # Define a geolocalização (exemplo: Roma, Itália)
+  geolocation: { longitude: 12.492507, latitude: 41.889938 },
+
+  # Concede permissão de acesso à localização
+  permissions: ['geolocation'],
+
+  # Define o tamanho da viewport
+  viewport: { width: 1600, height: 1200 } <- Define uma resolução especifica
+})
+
+-------------------------------------------------------------------------
